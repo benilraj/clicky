@@ -1,4 +1,4 @@
-{
+-{
     "name": "clicky",
     "short_name": "clicky",
     "start_url": "/",
@@ -7,7 +7,7 @@
     "theme_color": "#f0f0f0",
     "icons": [
         {
-            "src": "icon.png",
+            "src": "icon-192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
