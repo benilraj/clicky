@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Blue Circle</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            align-items: center;
+        }
+        .circle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        .score {
+            text-align: center;
+            font-size: 24px;
+            padding: 10px;
+            background-color: #ddd;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .timer-container {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-bar {
+            height: 100%;
+            background-color: green;
+            width: 100%;
+            transition: width 0.1s linear;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="timer-container">
+            <div class="timer-bar" :style="{ width: (timeLeft / maxTime) * 100 + '%' }"></div>
+            <span style="position: absolute; width: 100%;">{{ timeLeft }} ms</span>
+        </div>
+        <div v-if="!gameOver" class="circle" :style="{ top: y + 'px', left: x + 'px', backgroundColor: color }" @click.stop="moveCircle"></div>
+        <div class="score">Score: {{ score }}</div>
+        <div v-if="gameOver" class="popup">
+            <p>Game Over! Your score: {{ score }}</p>
+            <button @click="resetGame">Restart</button>
+        </div>
+    </div>
+    
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    x: window.innerWidth / 2 - 25,
+                    y: window.innerHeight / 2 - 25,
+                    color: 'blue',
+                    score: 0,
+                    gameOver: false,
+                    timer: null,
+                    maxTime: 10000, // Start at 10 seconds
+                    timeLeft: 10000
+                };
+            },
+            methods: {
+                moveCircle(event) {
+                    if (this.gameOver) return;
+                    
+                    clearTimeout(this.timer);
+                    this.x = Math.random() * (window.innerWidth - 50);
+                    this.y = Math.random() * (window.innerHeight - 50);
+                    this.color = this.getRandomColor();
+                    this.score++;
+                    
+                    this.maxTime = Math.max(this.maxTime - 100, 100); // Decrease by 100ms but not below 100ms
+                    this.startTimeout();
+                },
+                getRandomColor() {
+                    let color;
+                    do {
+                        color = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+                    } while (color === 'rgb(255, 255, 255)'); // Ensure color is never white
+                    return color;
+                },
+                startTimeout() {
+                    this.timeLeft = this.maxTime;
+                    const startTime = Date.now();
+                    this.timer = setInterval(() => {
+                        this.timeLeft = Math.max(this.maxTime - (Date.now() - startTime), 0);
+                        if (this.timeLeft === 0) {
+                            clearInterval(this.timer);
+                            this.gameOver = true;
+                        }
+                    }, 10);
+                },
+                resetGame() {
+                    this.score = 0;
+                    this.gameOver = false;
+                    this.x = window.innerWidth / 2 - 25;
+                    this.y = window.innerHeight / 2 - 25;
+                    this.color = 'blue';
+                    this.maxTime = 10000; // Reset timer to 10 seconds
+                    this.startTimeout();
+                }
+            },
+            mounted() {
+                this.startTimeout();
+            }
+        });
+        app.mount("#app");
+    </script>
+</body>
+</html>
