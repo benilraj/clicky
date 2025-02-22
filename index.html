@@ -16,12 +16,6 @@
         }
     </script>
     <style>
-        @media (prefers-color-scheme: dark) {
-          body {
-            background-color: black;
-            color: white;
-          }
-        }
         body {
             margin: 0;
             overflow: hidden;
@@ -98,22 +92,6 @@
             <button @click="resetGame">Restart</button>
         </div>
     </div>
-
-    <script setup>
-import { ref, watchEffect } from "vue";
-
-const isDarkMode = ref(window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-watchEffect(() => {
-  document.body.style.backgroundColor = isDarkMode.value ? "black" : "white";
-  document.body.style.color = isDarkMode.value ? "white" : "black";
-});
-
-// Listen for changes in system theme
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
-  isDarkMode.value = event.matches;
-});
-</script>
 
     
     <script>
