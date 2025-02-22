@@ -110,16 +110,21 @@
             methods: {
                 moveCircle(event) {
                     if (this.gameOver) return;
-                    
+                
                     clearTimeout(this.timer);
+                    
+                    let topLimit = 80; // Below the timer bar (50px + some margin)
+                    let bottomLimit = window.innerHeight - 100; // Above the score bar (accounting for padding)
+                
                     this.x = Math.random() * (window.innerWidth - 50);
-                    this.y = Math.random() * (window.innerHeight - 50);
+                    this.y = Math.random() * (bottomLimit - topLimit) + topLimit; // Keep Y within limits
                     this.color = this.getRandomColor();
                     this.score++;
-                    
-                    this.maxTime = Math.max(this.maxTime - 100, 100); // Decrease by 100ms but not below 100ms
+                
+                    this.maxTime = Math.max(this.maxTime - 100, 100);
                     this.startTimeout();
-                },
+                }
+                ,
                 getRandomColor() {
                     let color;
                     do {
