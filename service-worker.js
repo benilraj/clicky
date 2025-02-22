@@ -2,11 +2,11 @@ self.addEventListener("install", event => {
     event.waitUntil(
         caches.open("pwa-cache").then(cache => {
             return cache.addAll([
-                "clicky/",
-                "clicky/index.html",
-                "clicky/manifest.json",
-                "clicky/icon.png",
-                "clicky/icon-512.png"
+                "/",
+                "/index.html",
+                "/manifest.json",
+                "/icon-192.png",
+                "/icon-512.png"
             ]);
         })
     );
