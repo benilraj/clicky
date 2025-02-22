@@ -17,15 +17,18 @@
     </script>
     <style>
         @media (prefers-color-scheme: dark) {
-            body {
+            body,.popup, .score {
                 background-color: #222;
                 color: white;
             }
         }
         @media (prefers-color-scheme: light) {
-            body {
+            body,.popup, {
                 background-color: #f0f0f0;
                 color: black;
+            }
+            .score{
+                background-color: #ddd;
             }
         }
         body {
@@ -50,7 +53,6 @@
             font-size: 24px;
             padding-top: 10px;
             padding-bottom: 10px;
-            background-color: #ddd;
             width: 100%;
             position: absolute;
             bottom: 0;
@@ -85,7 +87,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
             padding: 20px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         }
