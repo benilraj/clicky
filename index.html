@@ -16,6 +16,18 @@
         }
     </script>
     <style>
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #222;
+                color: white;
+            }
+        }
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: #f0f0f0;
+                color: black;
+            }
+        }
         body {
             margin: 0;
             overflow: hidden;
@@ -25,9 +37,6 @@
             justify-content: space-between;
             height: 100dvh;
             align-items: center;
-        }
-        #app{
-            overflow: hidden;
         }
         .circle {
             position: absolute;
